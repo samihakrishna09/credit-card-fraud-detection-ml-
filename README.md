@@ -10,6 +10,7 @@ The project uses the Kaggle Credit Card Fraud Detection dataset as historical tr
 - Reusable preprocessing with `StandardScaler`
 - Fraud-dominant historical cluster detection
 - Cluster-profile matching for new transactions
+- Recall, F1-score, and confusion matrix evaluation
 - CSV prediction output for analysis and reporting
 
 ## Dataset
@@ -18,6 +19,11 @@ Download the dataset from Kaggle:
 
 [Credit Card Fraud Detection Dataset](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud)
 
+After downloading and extracting the ZIP file, place `creditcard.csv` here:
+
+```text
+data/raw/creditcard.csv
+```
 
 The Kaggle dataset contains:
 
@@ -49,6 +55,7 @@ fraud detection ml/
 |   |-- __init__.py
 |   |-- config.py
 |   |-- data_utils.py
+|   |-- evaluate.py
 |   |-- predict.py
 |   `-- train.py
 |-- .gitignore
@@ -58,19 +65,13 @@ fraud detection ml/
 
 ## Installation
 
-Open this project folder in VS Code:
-
-```text
-C:\Users\samiha krishna\Documents\fraud detection ml
-```
-
-Create a virtual environment:
+Create and activate a virtual environment:
 
 ```bash
 python -m venv .venv
 ```
 
-Activate it on Windows PowerShell:
+Windows PowerShell:
 
 ```bash
 .\.venv\Scripts\Activate.ps1
@@ -86,48 +87,39 @@ pip install -r requirements.txt
 
 Kaggle provides only one main file: `creditcard.csv`.
 
-For prediction, this project also needs:
+For prediction and evaluation, this project also uses:
 
 ```text
 data/raw/new_transactions.csv
 ```
 
-Create it by taking a small sample of rows from `creditcard.csv` and removing the `Class` column. This file represents new unseen transactions.
+For evaluation, create this file by taking a small sample of rows from `creditcard.csv` and keeping the `Class` column. The `Class` column is needed so `evaluate.py` can compare predicted labels with true labels.
 
-Required columns for `new_transactions.csv`:
+Required columns:
 
 - `Time`
 - `V1` to `V28`
 - `Amount`
-
-The `Class` column should not be included in `new_transactions.csv`.
+- `Class`
 
 ## Run the Project
 
-Run training:
+Train DBSCAN and save cluster profiles:
 
 ```bash
 python -m src.train
 ```
 
-This creates:
-
-```text
-models/scaler.pkl
-models/cluster_profiles.pkl
-data/processed/creditcard_clustered.csv
-```
-
-Run prediction:
+Predict fraud for new transactions:
 
 ```bash
 python -m src.predict
 ```
 
-This creates:
+Evaluate recall, F1-score, and confusion matrix:
 
-```text
-data/processed/fraud_predictions.csv
+```bash
+python -m src.evaluate
 ```
 
 ## How It Works
@@ -142,6 +134,7 @@ data/processed/fraud_predictions.csv
 8. New transactions are scaled using the saved scaler.
 9. Each new transaction is matched to the nearest historical cluster profile.
 10. Transactions close to fraud-dominant clusters are labeled `Fraud`; others are labeled `Normal`.
+11. `evaluate.py` compares predictions with the true `Class` labels.
 
 ## Model Settings
 
@@ -150,12 +143,10 @@ Main settings are stored in `src/config.py`:
 ```python
 DBSCAN_EPS = 2
 DBSCAN_MIN_SAMPLES = 5
-FRAUD_CLUSTER_MIN_COUNT = 10
+FRAUD_CLUSTER_MIN_COUNT = 5
 FRAUD_CLUSTER_MIN_RATE = 0.50
 MATCH_DISTANCE_MULTIPLIER = 1.25
 ```
-
-You can tune these values if DBSCAN creates too many noise points or too few useful clusters.
 
 ## Output
 
@@ -196,17 +187,27 @@ Cluster summary:
       20                   4                   0
 ```
 
-Prediction output from the sample `new_transactions.csv`:
+Prediction output:
 
 ```text
-Fraud-dominant historical clusters: [1]
+Fraud-dominant historical clusters: [0, 1, 3, 4]
 
 Prediction counts:
 Fraud_Prediction
-Normal    38
-Fraud      2
+Normal    37
+Fraud      3
 ```
 
+Evaluation output:
+
+```text
+Recall Score: 0.3
+F1 Score: 0.46153846153846156
+
+Confusion Matrix:
+[[30  0]
+ [ 7  3]]
+```
 
 ## Push to GitHub
 
@@ -220,12 +221,9 @@ git remote add origin https://github.com/YOUR-USERNAME/YOUR-REPO-NAME.git
 git push -u origin main
 ```
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 245b9a2ed8f6037a8e78e9a7db6097e252d66c52
 ## Important Notes
+
+The Kaggle dataset and generated model files are ignored by Git using `.gitignore`, because CSV and `.pkl` files can be large. The GitHub repository should contain the code and instructions, not the full dataset.
 
 DBSCAN does not have a normal `predict` method. This project solves that by saving historical cluster profiles during training and matching new transactions to those profiles during prediction.
 
