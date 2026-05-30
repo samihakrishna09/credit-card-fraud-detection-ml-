@@ -51,13 +51,17 @@ fraud detection ml/
 |-- models/
 |   |-- scaler.pkl
 |   `-- cluster_profiles.pkl
+|-- reports/
+|   `-- figures/
+|       `-- fraud_distribution.png
 |-- src/
 |   |-- __init__.py
 |   |-- config.py
 |   |-- data_utils.py
 |   |-- evaluate.py
 |   |-- predict.py
-|   `-- train.py
+|   |-- train.py
+|   `-- visualize.py
 |-- .gitignore
 |-- requirements.txt
 `-- README.md
@@ -120,6 +124,31 @@ Evaluate recall, F1-score, and confusion matrix:
 
 ```bash
 python -m src.evaluate
+```
+
+Generate a fraud distribution chart:
+
+```bash
+python -m src.visualize
+```
+
+This command prints the class distribution in the terminal and saves the chart image.
+
+Terminal output:
+
+```text
+Fraud Distribution:
+Class
+Normal    284315
+Fraud        492
+Name: count, dtype: int64
+Saved fraud distribution chart: reports/figures/fraud_distribution.png
+```
+
+The chart is saved to:
+
+```text
+reports/figures/fraud_distribution.png
 ```
 
 ## Evaluation
@@ -200,6 +229,22 @@ The final prediction file is:
 
 ```text
 data/processed/fraud_predictions.csv
+```
+
+Fraud distribution chart:
+
+```text
+reports/figures/fraud_distribution.png
+```
+
+Fraud distribution output:
+
+```text
+Fraud Distribution:
+Class
+Normal    284315
+Fraud        492
+Name: count, dtype: int64
 ```
 
 Training output from one Kaggle run:
