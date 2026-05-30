@@ -226,10 +226,10 @@ reports/figures/model_confusion_matrices.png
 ```
 ## outputs
 
-supervised models
+#supervised models
 <img width="386" height="207" alt="image" src="https://github.com/user-attachments/assets/d7e01965-231b-496f-a520-3c4a831cc40f" />
 
-dbscan 
+#dbscan 
 <img width="203" height="96" alt="image" src="https://github.com/user-attachments/assets/bc9bdd5b-92f1-45da-9894-5eaffc5f16f1" />
 
 
