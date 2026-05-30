@@ -4,6 +4,8 @@ A machine learning project for detecting fraudulent credit-card transactions usi
 
 The goal is to show a complete fraud-detection workflow: data preparation, model training, prediction, evaluation, visualization, and model comparison.
 
+![Project workflow](reports/figures/workflow_diagram.png)
+
 ## Project Highlights
 
 - Built an end-to-end ML workflow using Python and scikit-learn
@@ -97,6 +99,7 @@ fraud detection ml/
 |   `-- random_forest_model.pkl
 |-- reports/
 |   `-- figures/
+|       |-- workflow_diagram.png
 |       |-- fraud_distribution.png
 |       |-- model_metrics_comparison.png
 |       `-- model_confusion_matrices.png
@@ -215,6 +218,7 @@ models/random_forest_model.pkl
 Charts:
 
 ```text
+reports/figures/workflow_diagram.png
 reports/figures/fraud_distribution.png
 reports/figures/model_metrics_comparison.png
 reports/figures/model_confusion_matrices.png
