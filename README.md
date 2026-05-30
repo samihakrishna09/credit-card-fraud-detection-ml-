@@ -11,7 +11,6 @@ The project uses the Kaggle Credit Card Fraud Detection dataset as historical tr
 - Fraud-dominant historical cluster detection
 - Cluster-profile matching for new transactions
 - CSV prediction output for analysis and reporting
-- Clean Python project structure for GitHub
 
 ## Dataset
 
@@ -19,11 +18,6 @@ Download the dataset from Kaggle:
 
 [Credit Card Fraud Detection Dataset](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud)
 
-After downloading and extracting the ZIP file, place `creditcard.csv` here:
-
-```text
-data/raw/creditcard.csv
-```
 
 The Kaggle dataset contains:
 
@@ -226,8 +220,11 @@ git remote add origin https://github.com/YOUR-USERNAME/YOUR-REPO-NAME.git
 git push -u origin main
 ```
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 245b9a2ed8f6037a8e78e9a7db6097e252d66c52
 ## Important Notes
 
 DBSCAN does not have a normal `predict` method. This project solves that by saving historical cluster profiles during training and matching new transactions to those profiles during prediction.
