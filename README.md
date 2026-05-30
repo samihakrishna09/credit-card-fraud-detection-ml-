@@ -171,12 +171,48 @@ The final prediction file is:
 data/processed/fraud_predictions.csv
 ```
 
-Example output columns:
+Training output from one Kaggle run:
 
-| Amount | New_DBSCAN_Cluster | Matched_Historical_Cluster | Distance_To_Match | Fraud_Prediction |
-| ---: | ---: | ---: | ---: | --- |
-| 82.50 | 0 | 7 | 1.2451 | Normal |
-| 264.20 | -1 | 1 | 0.6842 | Fraud |
+```text
+Cluster summary:
+ Cluster  total_transactions  fraud_transactions
+      -1                2154                 416
+       2                2624                  30
+       1                  20                  20
+       0                   8                   8
+       3                   7                   6
+       4                   6                   6
+       5                   7                   4
+       9                  22                   1
+      19                   5                   1
+       7                 211                   0
+       8                 162                   0
+      12                  85                   0
+       6                  55                   0
+      11                  48                   0
+      15                  18                   0
+      16                  12                   0
+      13                   9                   0
+      14                   9                   0
+      10                   6                   0
+      22                   6                   0
+      18                   5                   0
+      21                   5                   0
+      17                   4                   0
+      20                   4                   0
+```
+
+Prediction output from the sample `new_transactions.csv`:
+
+```text
+Fraud-dominant historical clusters: [1]
+
+Prediction counts:
+Fraud_Prediction
+Normal    38
+Fraud      2
+```
+
 
 ## Push to GitHub
 
@@ -190,18 +226,9 @@ git remote add origin https://github.com/YOUR-USERNAME/YOUR-REPO-NAME.git
 git push -u origin main
 ```
 
-Replace:
 
-```text
-YOUR-USERNAME
-YOUR-REPO-NAME
-```
-
-with your GitHub username and repository name.
 
 ## Important Notes
-
-The Kaggle dataset and generated model files are ignored by Git using `.gitignore`, because CSV and `.pkl` files can be large. The GitHub repository should contain the code and instructions, not the full dataset.
 
 DBSCAN does not have a normal `predict` method. This project solves that by saving historical cluster profiles during training and matching new transactions to those profiles during prediction.
 
