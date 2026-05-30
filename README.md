@@ -59,7 +59,9 @@ fraud detection ml/
 |   `-- random_forest_model.pkl
 |-- reports/
 |   `-- figures/
-|       `-- fraud_distribution.png
+|       |-- fraud_distribution.png
+|       |-- model_metrics_comparison.png
+|       `-- model_confusion_matrices.png
 |-- src/
 |   |-- __init__.py
 |   |-- compare_models.py
@@ -67,7 +69,9 @@ fraud detection ml/
 |   |-- data_utils.py
 |   |-- evaluate.py
 |   |-- predict.py
+|   |-- predict_supervised.py
 |   |-- train.py
+|   |-- train_supervised.py
 |   `-- visualize.py
 |-- .gitignore
 |-- requirements.txt
@@ -127,6 +131,18 @@ Predict fraud for new transactions:
 python -m src.predict
 ```
 
+Train Logistic Regression and Random Forest:
+
+```bash
+python -m src.train_supervised
+```
+
+Predict with Logistic Regression and Random Forest:
+
+```bash
+python -m src.predict_supervised
+```
+
 Evaluate recall, F1-score, and confusion matrix:
 
 ```bash
@@ -139,13 +155,13 @@ Train Logistic Regression and Random Forest, then compare all three methods:
 python -m src.compare_models
 ```
 
-Generate a fraud distribution chart:
+Generate all charts:
 
 ```bash
 python -m src.visualize
 ```
 
-This command prints the class distribution in the terminal and saves the chart image.
+This command prints the class distribution in the terminal and saves three chart images.
 <img width="979" height="689" alt="image" src="https://github.com/user-attachments/assets/ad7ddabb-8ad9-4bb7-a325-53e1f60c420f" />
 
 
@@ -158,12 +174,16 @@ Normal    284315
 Fraud        492
 Name: count, dtype: int64
 Saved fraud distribution chart: reports/figures/fraud_distribution.png
+Saved model metrics chart: reports/figures/model_metrics_comparison.png
+Saved confusion matrices chart: reports/figures/model_confusion_matrices.png
 ```
 
-The chart is saved to:
+Charts are saved to:
 
 ```text
 reports/figures/fraud_distribution.png
+reports/figures/model_metrics_comparison.png
+reports/figures/model_confusion_matrices.png
 ```
 
 ## Evaluation
@@ -255,6 +275,8 @@ The comparison shows that Random Forest and Logistic Regression perform better t
 11. `evaluate.py` compares predictions with the true `Class` labels.
 12. `compare_models.py` trains Logistic Regression and Random Forest.
 13. `compare_models.py` compares DBSCAN, Logistic Regression, and Random Forest.
+14. `train_supervised.py` trains and saves Logistic Regression and Random Forest models.
+15. `predict_supervised.py` loads the saved supervised models and predicts new transactions.
 
 ## Model Settings
 
@@ -284,6 +306,30 @@ Fraud distribution chart:
 ```text
 reports/figures/fraud_distribution.png
 ```
+
+Model metrics comparison chart:
+
+```text
+reports/figures/model_metrics_comparison.png
+```
+
+This chart compares all three models using:
+
+- Precision
+- Recall
+- F1-score
+
+Model confusion matrices chart:
+
+```text
+reports/figures/model_confusion_matrices.png
+```
+
+This chart shows the confusion matrix for:
+
+- DBSCAN Cluster Matching
+- Logistic Regression
+- Random Forest
 
 Fraud distribution output:
 
@@ -335,6 +381,31 @@ Prediction counts:
 Fraud_Prediction
 Normal    37
 Fraud      3
+```
+
+Supervised training output:
+
+```text
+Saved supervised scaler: models/supervised_scaler.pkl
+Saved supervised feature columns: models/supervised_feature_columns.pkl
+Saved Logistic Regression model: models/logistic_regression_model.pkl
+Saved Random Forest model: models/random_forest_model.pkl
+```
+
+Supervised prediction output:
+
+```text
+Saved supervised predictions: data/processed/supervised_predictions.csv
+
+Logistic Regression prediction counts:
+Logistic_Regression_Prediction
+Normal    29
+Fraud     11
+
+Random Forest prediction counts:
+Random_Forest_Prediction
+Normal    30
+Fraud     10
 ```
 
 Evaluation output:

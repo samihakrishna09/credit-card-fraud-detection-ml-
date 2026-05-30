@@ -16,10 +16,13 @@ PREDICTIONS_PATH = PROCESSED_DATA_DIR / "fraud_predictions.csv"
 SUPERVISED_PREDICTIONS_PATH = PROCESSED_DATA_DIR / "supervised_predictions.csv"
 MODEL_COMPARISON_PATH = PROCESSED_DATA_DIR / "model_comparison.csv"
 FRAUD_DISTRIBUTION_CHART_PATH = FIGURES_DIR / "fraud_distribution.png"
+MODEL_METRICS_CHART_PATH = FIGURES_DIR / "model_metrics_comparison.png"
+CONFUSION_MATRICES_CHART_PATH = FIGURES_DIR / "model_confusion_matrices.png"
 
 SCALER_PATH = MODELS_DIR / "scaler.pkl"
 CLUSTER_PROFILES_PATH = MODELS_DIR / "cluster_profiles.pkl"
 SUPERVISED_SCALER_PATH = MODELS_DIR / "supervised_scaler.pkl"
+SUPERVISED_FEATURES_PATH = MODELS_DIR / "supervised_feature_columns.pkl"
 LOGISTIC_REGRESSION_MODEL_PATH = MODELS_DIR / "logistic_regression_model.pkl"
 RANDOM_FOREST_MODEL_PATH = MODELS_DIR / "random_forest_model.pkl"
 
