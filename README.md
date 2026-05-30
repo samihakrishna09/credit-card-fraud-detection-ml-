@@ -122,6 +122,52 @@ Evaluate recall, F1-score, and confusion matrix:
 python -m src.evaluate
 ```
 
+## Evaluation
+
+The file `src/evaluate.py` checks how well the fraud prediction worked on `new_transactions.csv`.
+
+It compares:
+
+- the actual label from the `Class` column
+- the predicted label from `data/processed/fraud_predictions.csv`
+
+It calculates:
+
+- `Recall Score`: how many real fraud transactions were correctly detected
+- `F1 Score`: balance between fraud precision and fraud recall
+- `Confusion Matrix`: count of correct and incorrect predictions
+
+Run evaluation after prediction:
+
+```bash
+python -m src.evaluate
+```
+
+Current evaluation output:
+
+```text
+Recall Score: 0.3
+F1 Score: 0.46153846153846156
+
+Confusion Matrix:
+[[30  0]
+ [ 7  3]]
+```
+
+Confusion matrix meaning:
+
+```text
+[[TN FP]
+ [FN TP]]
+```
+
+For this project output:
+
+- `30` normal transactions were correctly predicted as normal
+- `0` normal transactions were wrongly predicted as fraud
+- `7` fraud transactions were missed
+- `3` fraud transactions were correctly predicted as fraud
+
 ## How It Works
 
 1. `train.py` loads `data/raw/creditcard.csv`.
