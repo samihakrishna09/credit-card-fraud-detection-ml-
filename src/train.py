@@ -12,7 +12,9 @@ from src.config import (
     FRAUD_CLUSTER_MIN_COUNT,
     FRAUD_CLUSTER_MIN_RATE,
     MODELS_DIR,
+    NORMAL_SAMPLE_SIZE,
     PROCESSED_DATA_DIR,
+    RANDOM_STATE,
     SCALER_PATH,
     TRAINING_DATA_PATH,
 )
@@ -64,7 +66,7 @@ def train_cluster_model() -> pd.DataFrame:
     df = pd.read_csv(TRAINING_DATA_PATH)
 
     fraud_df = df[df["Class"] == 1]
-    normal_df = df[df["Class"] == 0].sample(n=5000, random_state=42)
+    normal_df = df[df["Class"] == 0].sample(n=NORMAL_SAMPLE_SIZE, random_state=RANDOM_STATE)
     df = pd.concat([fraud_df, normal_df], ignore_index=True)
 
     feature_columns = get_feature_columns(df)

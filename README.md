@@ -7,9 +7,12 @@ The project uses the Kaggle Credit Card Fraud Detection dataset as historical tr
 ## Features
 
 - DBSCAN-based transaction clustering
+- Logistic Regression supervised classification
+- Random Forest supervised classification
 - Reusable preprocessing with `StandardScaler`
 - Fraud-dominant historical cluster detection
 - Cluster-profile matching for new transactions
+- Model comparison with precision, recall, F1-score, and confusion matrix values
 - Recall, F1-score, and confusion matrix evaluation
 - CSV prediction output for analysis and reporting
 
@@ -50,12 +53,16 @@ fraud detection ml/
 |       `-- fraud_predictions.csv
 |-- models/
 |   |-- scaler.pkl
-|   `-- cluster_profiles.pkl
+|   |-- cluster_profiles.pkl
+|   |-- supervised_scaler.pkl
+|   |-- logistic_regression_model.pkl
+|   `-- random_forest_model.pkl
 |-- reports/
 |   `-- figures/
 |       `-- fraud_distribution.png
 |-- src/
 |   |-- __init__.py
+|   |-- compare_models.py
 |   |-- config.py
 |   |-- data_utils.py
 |   |-- evaluate.py
@@ -124,6 +131,12 @@ Evaluate recall, F1-score, and confusion matrix:
 
 ```bash
 python -m src.evaluate
+```
+
+Train Logistic Regression and Random Forest, then compare all three methods:
+
+```bash
+python -m src.compare_models
 ```
 
 Generate a fraud distribution chart:
@@ -197,6 +210,34 @@ For this project output:
 - `7` fraud transactions were missed
 - `3` fraud transactions were correctly predicted as fraud
 
+## Model Comparison
+
+The file `src/compare_models.py` trains two supervised models and compares them with the DBSCAN cluster-matching result:
+
+- DBSCAN Cluster Matching
+- Logistic Regression
+- Random Forest
+
+It uses the labeled `Class` column in `new_transactions.csv` to calculate precision, recall, F1-score, true negatives, false positives, false negatives, and true positives.
+
+Run:
+
+```bash
+python -m src.compare_models
+```
+
+Current comparison output:
+
+```text
+Model Comparison:
+                  Model  Precision  Recall  F1 Score  True Negatives  False Positives  False Negatives  True Positives
+          Random Forest   1.000000     1.0  1.000000              30                0                0              10
+    Logistic Regression   0.909091     1.0  0.952381              29                1                0              10
+DBSCAN Cluster Matching   1.000000     0.3  0.461538              30                0                7               3
+```
+
+The comparison shows that Random Forest and Logistic Regression perform better than DBSCAN on this labeled evaluation sample. DBSCAN is unsupervised, while Logistic Regression and Random Forest directly learn from the fraud labels.
+
 ## How It Works
 
 1. `train.py` loads `data/raw/creditcard.csv`.
@@ -210,6 +251,8 @@ For this project output:
 9. Each new transaction is matched to the nearest historical cluster profile.
 10. Transactions close to fraud-dominant clusters are labeled `Fraud`; others are labeled `Normal`.
 11. `evaluate.py` compares predictions with the true `Class` labels.
+12. `compare_models.py` trains Logistic Regression and Random Forest.
+13. `compare_models.py` compares DBSCAN, Logistic Regression, and Random Forest.
 
 ## Model Settings
 
@@ -221,6 +264,9 @@ DBSCAN_MIN_SAMPLES = 5
 FRAUD_CLUSTER_MIN_COUNT = 5
 FRAUD_CLUSTER_MIN_RATE = 0.50
 MATCH_DISTANCE_MULTIPLIER = 1.25
+NORMAL_SAMPLE_SIZE = 5000
+RANDOM_STATE = 42
+RANDOM_FOREST_ESTIMATORS = 100
 ```
 
 ## Output
@@ -298,6 +344,28 @@ F1 Score: 0.46153846153846156
 Confusion Matrix:
 [[30  0]
  [ 7  3]]
+```
+
+Model comparison output:
+
+```text
+Model Comparison:
+                  Model  Precision  Recall  F1 Score  True Negatives  False Positives  False Negatives  True Positives
+          Random Forest   1.000000     1.0  1.000000              30                0                0              10
+    Logistic Regression   0.909091     1.0  0.952381              29                1                0              10
+DBSCAN Cluster Matching   1.000000     0.3  0.461538              30                0                7               3
+```
+
+Model comparison file:
+
+```text
+data/processed/model_comparison.csv
+```
+
+Supervised prediction file:
+
+```text
+data/processed/supervised_predictions.csv
 ```
 
 ## Push to GitHub
