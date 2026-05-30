@@ -13,7 +13,6 @@ The project uses the Kaggle Credit Card Fraud Detection dataset as historical tr
 - Fraud-dominant historical cluster detection
 - Cluster-profile matching for new transactions
 - Model comparison with precision, recall, F1-score, and confusion matrix values
-- Recall, F1-score, and confusion matrix evaluation
 - CSV prediction output for analysis and reporting
 
 ## Dataset
@@ -67,7 +66,6 @@ fraud detection ml/
 |   |-- compare_models.py
 |   |-- config.py
 |   |-- data_utils.py
-|   |-- evaluate.py
 |   |-- predict.py
 |   |-- predict_supervised.py
 |   |-- train.py
@@ -102,13 +100,13 @@ pip install -r requirements.txt
 
 Kaggle provides only one main file: `creditcard.csv`.
 
-For prediction and evaluation, this project also uses:
+For prediction and model comparison, this project also uses:
 
 ```text
 data/raw/new_transactions.csv
 ```
 
-For evaluation, create this file by taking a small sample of rows from `creditcard.csv` and keeping the `Class` column. The `Class` column is needed so `evaluate.py` can compare predicted labels with true labels.
+For model comparison, create this file by taking a small sample of rows from `creditcard.csv` and keeping the `Class` column. The `Class` column is needed so `compare_models.py` can compare predicted labels with true labels.
 
 Required columns:
 
@@ -141,12 +139,6 @@ Predict with Logistic Regression and Random Forest:
 
 ```bash
 python -m src.predict_supervised
-```
-
-Evaluate recall, F1-score, and confusion matrix:
-
-```bash
-python -m src.evaluate
 ```
 
 Train Logistic Regression and Random Forest, then compare all three methods:
@@ -185,52 +177,6 @@ reports/figures/fraud_distribution.png
 reports/figures/model_metrics_comparison.png
 reports/figures/model_confusion_matrices.png
 ```
-
-## Evaluation
-
-The file `src/evaluate.py` checks how well the fraud prediction worked on `new_transactions.csv`.
-
-It compares:
-
-- the actual label from the `Class` column
-- the predicted label from `data/processed/fraud_predictions.csv`
-
-It calculates:
-
-- `Recall Score`: how many real fraud transactions were correctly detected
-- `F1 Score`: balance between fraud precision and fraud recall
-- `Confusion Matrix`: count of correct and incorrect predictions
-
-Run evaluation after prediction:
-
-```bash
-python -m src.evaluate
-```
-
-Current evaluation output:
-
-```text
-Recall Score: 0.3
-F1 Score: 0.46153846153846156
-
-Confusion Matrix:
-[[30  0]
- [ 7  3]]
-```
-
-Confusion matrix meaning:
-
-```text
-[[TN FP]
- [FN TP]]
-```
-
-For this project output:
-
-- `30` normal transactions were correctly predicted as normal
-- `0` normal transactions were wrongly predicted as fraud
-- `7` fraud transactions were missed
-- `3` fraud transactions were correctly predicted as fraud
 
 ## Model Comparison
 
@@ -272,11 +218,10 @@ The comparison shows that Random Forest and Logistic Regression perform better t
 8. New transactions are scaled using the saved scaler.
 9. Each new transaction is matched to the nearest historical cluster profile.
 10. Transactions close to fraud-dominant clusters are labeled `Fraud`; others are labeled `Normal`.
-11. `evaluate.py` compares predictions with the true `Class` labels.
-12. `compare_models.py` trains Logistic Regression and Random Forest.
-13. `compare_models.py` compares DBSCAN, Logistic Regression, and Random Forest.
-14. `train_supervised.py` trains and saves Logistic Regression and Random Forest models.
-15. `predict_supervised.py` loads the saved supervised models and predicts new transactions.
+11. `compare_models.py` trains Logistic Regression and Random Forest.
+12. `compare_models.py` compares DBSCAN, Logistic Regression, and Random Forest.
+13. `train_supervised.py` trains and saves Logistic Regression and Random Forest models.
+14. `predict_supervised.py` loads the saved supervised models and predicts new transactions.
 
 ## Model Settings
 
@@ -406,17 +351,6 @@ Random Forest prediction counts:
 Random_Forest_Prediction
 Normal    30
 Fraud     10
-```
-
-Evaluation output:
-
-```text
-Recall Score: 0.3
-F1 Score: 0.46153846153846156
-
-Confusion Matrix:
-[[30  0]
- [ 7  3]]
 ```
 
 Model comparison output:
