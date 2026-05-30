@@ -2,7 +2,7 @@
 
 A machine learning project for detecting fraudulent credit-card transactions using both unsupervised and supervised approaches. The project starts with DBSCAN cluster matching, then compares it against Logistic Regression and Random Forest on a labeled evaluation sample.
 
-The goal is to show a complete fraud-detection workflow: data preparation, model training, prediction, evaluation, visualization, and model comparison.
+The goal is to show a complete fraud-detection workflow: data preparation, model training, prediction, evaluation, visualization, and model comparison
 
 ![Project workflow](reports/figures/workflow_diagram.png)
 
