@@ -146,6 +146,8 @@ python -m src.visualize
 ```
 
 This command prints the class distribution in the terminal and saves the chart image.
+<img width="979" height="689" alt="image" src="https://github.com/user-attachments/assets/ad7ddabb-8ad9-4bb7-a325-53e1f60c420f" />
+
 
 Terminal output:
 
